@@ -1,0 +1,50 @@
+<script setup
+    lang="ts">
+    import { useconv2dStore } from '@/stores/conv2d';
+    import OutputPixel from './OutputPixel.vue';
+    import { useVisualsStore } from '@/stores/visuals';
+    import { computed } from 'vue';
+    import getPixelSize from '@/utils/pixelSize';
+
+    const conv2dstore = useconv2dStore()
+    const visualsStore = useVisualsStore()
+
+    function getHighlightFrame(w: number, h: number) {
+        const r = Math.floor(conv2dstore.kernel.width / 2)
+
+        const frame: number[][][] = []
+
+        for (let i = w - r + 1; i <= w + r + 1; i++) {
+            const row = []
+            for (let j = h - r + 1; j <= h + r + 1; j++) {
+                row.push([i, j])
+            }
+            frame.push(row)
+        }
+        visualsStore.highlightFrame = frame
+    }
+
+    const width = computed(() => {
+        return conv2dstore.input.width + conv2dstore.padding * 2
+    })
+    const height = computed(() => {
+        return conv2dstore.input.height + conv2dstore.padding * 2
+    })
+
+    const pixelSize = computed(() => {
+        return getPixelSize(width.value, height.value)
+    })
+
+</script>
+
+<template>
+    <div>
+        <div>
+            <div v-for="i in conv2dstore.output.height" v-bind:key="i" class="flex">
+                <OutputPixel v-for="j in conv2dstore.output.height" v-bind:key="i * conv2dstore.output.height + j"
+                    :value="conv2dstore.output.pixels[((i - 1) * conv2dstore.output.width) + (j - 1)]" :size="pixelSize"
+                    @click="getHighlightFrame(i, j)" />
+            </div>
+        </div>
+    </div>
+</template>
