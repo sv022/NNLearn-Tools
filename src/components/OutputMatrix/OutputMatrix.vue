@@ -14,9 +14,9 @@
 
         const frame: number[][][] = []
 
-        for (let i = w - r + 1; i <= w + r + 1; i++) {
+        for (let i = w; i <= w + (r * 2); i++) {
             const row = []
-            for (let j = h - r + 1; j <= h + r + 1; j++) {
+            for (let j = h; j <= h + (r * 2); j++) {
                 row.push([i, j])
             }
             frame.push(row)
