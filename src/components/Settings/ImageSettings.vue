@@ -21,7 +21,7 @@
 
     <div class="flex flex-col items-center h-full w-full">
         <div class="w-[400px]">
-            <h3 class="text-3xl font-bold pb-3">Input Settings</h3>
+            <h3 class="text-center text-3xl font-bold pb-3">Input Settings</h3>
             <NumberField class="p-2" id="size" :disabled="conv2dStore.isExampleSelected" :default-value="8" :min="2"
                 :max="32" :model-value="conv2dStore.input.height">
                 <Label for="size">Image Size</Label>

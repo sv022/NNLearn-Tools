@@ -7,11 +7,11 @@
 </script>
 
 <template>
-  <div class="flex w-full md:h-[700px]">
+  <div class="w-full space-y-10 md:flex md:h-[700px]">
     <div class="flex flex-1/3 items-center justify-center">
       <PixelsMatrix />
     </div>
-    <div class="flex flex-1/3 items-center justify-center">
+    <div class="flex flex-1/3 min-w-[200px] items-center justify-center">
       <KernelMatrix />
     </div>
     <div class="flex flex-1/3 items-center justify-center">

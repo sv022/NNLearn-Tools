@@ -7,6 +7,8 @@
 <template>
   <main>
     <InputFrame />
-    <SettingsFrame />
+    <div class="flex justify-center p-2 md:p-0">
+      <SettingsFrame />
+    </div>
   </main>
 </template>
