@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import type { Image } from '@/types/image'
 import imageformat from '@/utils/imageformat'
 import convolve from '@/utils/convolve'
+import getRandomKernel from '@/utils/randomKernel'
 
 export const useconv2dStore = defineStore('conv2d', () => {
   const input = ref<Image>({
@@ -10,14 +11,11 @@ export const useconv2dStore = defineStore('conv2d', () => {
     width: 8,
     height: 8,
   })
-  const kernel = ref<Image>({
-    pixels: [1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9],
-    width: 3,
-    height: 3,
-  })
+  const kernel = ref<Image>(getRandomKernel(3))
 
   const padding = ref<number>(0)
   const isExampleSelected = ref<boolean>(false)
+  const isKernelSelected = ref<boolean>(false)
 
   function setImage(pixels: number[], widthNew: number, heightNew: number) {
     input.value.pixels = imageformat(pixels, widthNew, heightNew, padding.value)
@@ -41,6 +39,16 @@ export const useconv2dStore = defineStore('conv2d', () => {
     input.value.height--
     input.value.width--
   }
+  const incrementKernelSize = () => {
+    kernel.value.height += 2
+    kernel.value.width += 2
+    kernel.value = getRandomKernel(kernel.value.height)
+  }
+  const decrementKernelSize = () => {
+    kernel.value.height -= 2
+    kernel.value.width -= 2
+    kernel.value = getRandomKernel(kernel.value.height)
+  }
 
   const inputResult = computed(() =>
     imageformat(input.value.pixels, input.value.width, input.value.height, padding.value),
@@ -63,5 +71,7 @@ export const useconv2dStore = defineStore('conv2d', () => {
     resetInput,
     incrementInputSize,
     decrementInputSize,
+    incrementKernelSize,
+    decrementKernelSize,
   }
 })
