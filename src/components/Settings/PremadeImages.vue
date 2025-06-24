@@ -8,18 +8,26 @@
     const conv2dstore = useconv2dStore()
     const visualsStore = useVisualsStore()
 
+    function setImage(index: number): void {
+        if (index == 0) {
+            conv2dstore.resetInput()
+            visualsStore.highlightFrame = []
+            return
+        }
+        conv2dstore.resetKernel()
+        conv2dstore.setImage(exampleImages(index), 28, 28)
+        conv2dstore.isExampleSelected = true
+    }
+
 </script>
 <template>
 
     <div class="p-2">
         <Label>Example images</Label>
         <div class="flex p-2">
-            <img width="80" src="@/assets/image_none.png" alt="0"
-                @click="conv2dstore.resetInput(); visualsStore.highlightFrame = []">
-            <img width="80" src="@/assets/image_0.png" alt="0"
-                @click="conv2dstore.setImage(exampleImages(1), 28, 28); conv2dstore.isExampleSelected = true">
-            <img width="80" src="@/assets/image_0.png" alt="0"
-                @click="conv2dstore.setImage(exampleImages(2), 28, 28); conv2dstore.isExampleSelected = true">
+            <img width="80" src="@/assets/image_none.png" alt="0" @click="setImage(0)">
+            <img width="80" src="@/assets/image_0.png" alt="0" @click="setImage(1)">
+            <img width="80" src="@/assets/image_0.png" alt="0" @click="setImage(2)">
         </div>
     </div>
 

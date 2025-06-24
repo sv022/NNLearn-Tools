@@ -11,8 +11,7 @@
 
     <div>
         <div v-for="i in conv2dstore.kernel.height" v-bind:key="i" class="flex">
-            <KernelPixelItem v-for="j in conv2dstore.kernel.height"
-                v-bind:key="conv2dstore.kernel.pixels[((i - 1) * conv2dstore.kernel.height) + (j - 1)]"
+            <KernelPixelItem v-for="j in conv2dstore.kernel.height" v-bind:key="conv2dstore.kernel.height * (i - 1) + j"
                 :value="conv2dstore.kernel.pixels[((i - 1) * conv2dstore.kernel.width) + (j - 1)]" />
         </div>
     </div>

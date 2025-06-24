@@ -4,6 +4,8 @@ import type { Image } from '@/types/image'
 import imageformat from '@/utils/imageformat'
 import convolve from '@/utils/convolve'
 import getRandomKernel from '@/utils/randomKernel'
+import getKernel from '@/utils/exampleKernels'
+import type { Kernels } from '@/types/kernels'
 
 export const useconv2dStore = defineStore('conv2d', () => {
   const input = ref<Image>({
@@ -50,6 +52,16 @@ export const useconv2dStore = defineStore('conv2d', () => {
     kernel.value = getRandomKernel(kernel.value.height)
   }
 
+  const setKernel = (kernelType: Kernels) => {
+    isKernelSelected.value = true
+    kernel.value = getKernel(kernelType)
+  }
+
+  const resetKernel = () => {
+    kernel.value = getRandomKernel(3)
+    isKernelSelected.value = false
+  }
+
   const inputResult = computed(() =>
     imageformat(input.value.pixels, input.value.width, input.value.height, padding.value),
   )
@@ -66,6 +78,7 @@ export const useconv2dStore = defineStore('conv2d', () => {
     padding,
     inputResult,
     isExampleSelected,
+    isKernelSelected,
     output,
     setImage,
     resetInput,
@@ -73,5 +86,7 @@ export const useconv2dStore = defineStore('conv2d', () => {
     decrementInputSize,
     incrementKernelSize,
     decrementKernelSize,
+    setKernel,
+    resetKernel,
   }
 })
