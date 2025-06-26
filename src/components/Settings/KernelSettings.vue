@@ -31,9 +31,9 @@
     const selectedKernel = ref<Kernels | 'random'>('random')
 
     function setKernel() {
+        visualsStore.clearHighlight()
         if (selectedKernel.value === 'random') {
             conv2dStore.resetKernel()
-            visualsStore.highlightFrame = []
             return
         }
         conv2dStore.setKernel(selectedKernel.value)
@@ -50,11 +50,9 @@
                 :step="2" :max="5" :model-value="conv2dStore.kernel.height">
                 <Label for="size">Kernel Size</Label>
                 <NumberFieldContent>
-                    <NumberFieldDecrement
-                        @click="conv2dStore.decrementKernelSize(); visualsStore.highlightFrame = []" />
+                    <NumberFieldDecrement @click="conv2dStore.decrementKernelSize(); visualsStore.clearHighlight()" />
                     <NumberFieldInput />
-                    <NumberFieldIncrement
-                        @click="conv2dStore.incrementKernelSize(); visualsStore.highlightFrame = []" />
+                    <NumberFieldIncrement @click="conv2dStore.incrementKernelSize(); visualsStore.clearHighlight()" />
                 </NumberFieldContent>
             </NumberField>
             <div class="p-2">

@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 export const useVisualsStore = defineStore('visuals', () => {
   const highlightFrame = ref<number[][][]>([])
+  const highlightPixel = ref<number[]>([])
   function checkHighlight(i: number, j: number, kernelSize: number): boolean {
     if (highlightFrame.value.length === 0) return false
     for (let k = 0; k < kernelSize; k++) {
@@ -12,5 +13,10 @@ export const useVisualsStore = defineStore('visuals', () => {
     }
     return false
   }
-  return { highlightFrame, checkHighlight }
+
+  function clearHighlight() {
+    highlightFrame.value = []
+    highlightPixel.value = []
+  }
+  return { highlightFrame, highlightPixel, clearHighlight, checkHighlight }
 })

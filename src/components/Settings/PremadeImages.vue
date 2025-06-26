@@ -9,9 +9,9 @@
     const visualsStore = useVisualsStore()
 
     function setImage(index: number): void {
+        visualsStore.clearHighlight()
         if (index == 0) {
             conv2dstore.resetInput()
-            visualsStore.highlightFrame = []
             return
         }
         conv2dstore.resetKernel()
