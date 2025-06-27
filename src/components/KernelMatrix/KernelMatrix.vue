@@ -23,6 +23,19 @@
         return conv2dstore.output.pixels[((w - 1) * conv2dstore.output.width) + (h - 1)].toFixed(2)
     })
 
+    const outputPixelBGColor = computed<string>(() => {
+        if (outputPixelValue.value === "-") {
+            return "#FFFFFF"
+        }
+        return grayscaleToHex(Number(outputPixelValue.value))
+    })
+    const outputPixelTextColor = computed<string>(() => {
+        if (outputPixelValue.value === "-") {
+            return "#000000"
+        }
+        return invertGrayscaleToHex(Number(outputPixelValue.value))
+    })
+
 </script>
 
 <template>
@@ -39,7 +52,7 @@
                 =
             </div>
             <div class="flex size-15 items-center justify-center"
-                :style="{ backgroundColor: grayscaleToHex(Number(outputPixelValue)), color: invertGrayscaleToHex(Number(outputPixelValue)) }">
+                :style="{ backgroundColor: outputPixelBGColor, color: outputPixelTextColor }">
                 {{ outputPixelValue }}
             </div>
 
