@@ -6,6 +6,7 @@
     import { computed } from 'vue';
     import grayscaleToHex from '@/utils/grayscaleToHex';
     import invertGrayscaleToHex from '@/utils/invertGrayscale';
+    import { storeToRefs } from 'pinia';
 
     const conv2dstore = useconv2dStore()
 
@@ -36,15 +37,20 @@
         return invertGrayscaleToHex(Number(outputPixelValue.value))
     })
 
+    const { kernel } = storeToRefs(conv2dstore)
+    const { framePixelValues } = storeToRefs(visualsStore)
+
 </script>
 
 <template>
     <div class="space-y-5">
         <div>
-            <div v-for="i in conv2dstore.kernel.height" v-bind:key="i" class="flex">
+            <div v-for="i in conv2dstore.kernel.height" v-bind:key="i" class="flex space-x-10">
                 <KernelPixelItem v-for="j in conv2dstore.kernel.height"
                     v-bind:key="conv2dstore.kernel.height * (i - 1) + j"
-                    :value="conv2dstore.kernel.pixels[((i - 1) * conv2dstore.kernel.width) + (j - 1)]" />
+                    :value="kernel.pixels[((i - 1) * kernel.width) + (j - 1)]"
+                    :pixel-value="framePixelValues[((i - 1) * conv2dstore.kernel.width) + (j - 1)]" :pos-x="i"
+                    :pos-y="j" />
             </div>
         </div>
         <div class="flex flex-col items-center justify-center text-center">

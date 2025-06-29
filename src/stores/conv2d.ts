@@ -66,6 +66,10 @@ export const useconv2dStore = defineStore('conv2d', () => {
     input.value.pixels[i * input.value.width + j] = value
   }
 
+  function setKernelPixel(i: number, j: number, value: number) {
+    kernel.value.pixels[i * kernel.value.width + j] = value
+  }
+
   const inputResult = computed(() =>
     imageformat(input.value.pixels, input.value.width, input.value.height, padding.value),
   )
@@ -93,5 +97,6 @@ export const useconv2dStore = defineStore('conv2d', () => {
     setKernel,
     resetKernel,
     setImagePixel,
+    setKernelPixel,
   }
 })

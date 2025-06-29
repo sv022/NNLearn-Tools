@@ -39,5 +39,5 @@ const kernelMap = {
 }
 
 export default function getKernel(name: Kernels) {
-  return kernelMap[name]
+  return structuredClone(kernelMap[name])
 }

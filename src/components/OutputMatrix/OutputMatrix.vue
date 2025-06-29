@@ -11,18 +11,7 @@
 
     function getHighlightFrame(w: number, h: number) {
         const r = Math.floor(conv2dstore.kernel.width / 2)
-
-        const frame: number[][][] = []
-
-        for (let i = w; i <= w + (r * 2); i++) {
-            const row = []
-            for (let j = h; j <= h + (r * 2); j++) {
-                row.push([i, j])
-            }
-            frame.push(row)
-        }
-        visualsStore.highlightFrame = frame
-        visualsStore.highlightPixel = [w, h]
+        visualsStore.getHighlightFrame(w, h, r, conv2dstore.input)
     }
 
     const width = computed(() => {
