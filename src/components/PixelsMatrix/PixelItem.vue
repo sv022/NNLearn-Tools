@@ -53,7 +53,7 @@
         } else {
             h--
         }
-        visualsStore.updateFramePixels(w, h, r, conv2dStore.input)
+        visualsStore.getHighlightFrame(w, h, r, conv2dStore.input)
     }
 
 

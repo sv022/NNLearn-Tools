@@ -38,14 +38,6 @@ export const useVisualsStore = defineStore('visuals', () => {
     highlightPixel.value = []
   }
 
-  function updateFramePixels(w: number, h: number, r: number, inputPixels: Image) {
-    framePixelValues.value = []
-    for (let i = w; i <= w + r * 2; i++) {
-      for (let j = h; j <= h + r * 2; j++) {
-        framePixelValues.value.push(inputPixels.pixels[(i - 1) * inputPixels.width + (j - 1)])
-      }
-    }
-  }
   return {
     highlightFrame,
     highlightPixel,
@@ -53,6 +45,5 @@ export const useVisualsStore = defineStore('visuals', () => {
     getHighlightFrame,
     clearHighlight,
     checkHighlight,
-    updateFramePixels,
   }
 })
