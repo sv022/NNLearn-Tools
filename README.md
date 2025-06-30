@@ -11,7 +11,7 @@ NNLearn Tools is a collection of tools for learning various algorithms and metho
 
 ## Getting Started
 
-**NNLearn Tools is avaliable at:** [https://nnlearn-tools.vercel.app](https://nnlearn-tools.vercel.app)
+**NNLearn Tools is avaliable at:** [https://nnlearn-tools.vercel.app](https://nn-learn-tools.vercel.app)
 
 ### Local Setup
 
