@@ -10,8 +10,8 @@
 
     function setImage(index: number): void {
         visualsStore.clearHighlight()
+        conv2dstore.resetInput()
         if (index == 0) {
-            conv2dstore.resetInput()
             return
         }
         conv2dstore.resetKernel()

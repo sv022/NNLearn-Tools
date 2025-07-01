@@ -11,14 +11,14 @@
 
     function getHighlightFrame(w: number, h: number) {
         const r = Math.floor(conv2dstore.kernel.width / 2)
-        visualsStore.getHighlightFrame(w, h, r, conv2dstore.input)
+        visualsStore.getHighlightFrame(w, h, r, conv2dstore.inputResult)
     }
 
     const width = computed(() => {
-        return conv2dstore.input.width + conv2dstore.padding * 2
+        return conv2dstore.inputResult.width
     })
     const height = computed(() => {
-        return conv2dstore.input.height + conv2dstore.padding * 2
+        return conv2dstore.inputResult.height
     })
 
     const pixelSize = computed(() => {

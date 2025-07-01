@@ -11,10 +11,10 @@
 
 
     const width = computed(() => {
-        return conv2dStore.input.width + conv2dStore.padding * 2
+        return conv2dStore.inputResult.width
     })
     const height = computed(() => {
-        return conv2dStore.input.height + conv2dStore.padding * 2
+        return conv2dStore.inputResult.height
     })
 
     const pixelSize = computed(() => {
@@ -43,7 +43,7 @@
             h--
         }
 
-        visualsStore.getHighlightFrame(w, h, r, conv2dStore.input)
+        visualsStore.getHighlightFrame(w, h, r, conv2dStore.inputResult)
     }
 </script>
 
@@ -52,7 +52,7 @@
     <div>
         <div v-for="i in height" v-bind:key="-i" class="flex">
             <PixelItem v-for="j in width" v-bind:key="i * height + j"
-                :value="conv2dStore.inputResult[((i - 1) * width) + (j - 1)]" :size="pixelSize"
+                :value="conv2dStore.inputResult.pixels[((i - 1) * width) + (j - 1)]" :size="pixelSize"
                 :highlight="visualsStore.checkHighlight(i, j, conv2dStore.kernel.height)"
                 @click.stop="getHighlightFrame(i, j)" :pos-x="i" :pos-y="j" />
             <!-- <PixelItem v-for="j in props.item.width + props.padding * 2" v-bind:key="j * i" :value="Math.random()" /> -->

@@ -34,9 +34,9 @@
             <NumberField class="p-2" id="padding" :default-value="0" :min="0" :model-value="conv2dStore.padding">
                 <Label for="padding">Padding</Label>
                 <NumberFieldContent>
-                    <NumberFieldDecrement @click="conv2dStore.padding--; conv2dStore.resetKernel()" />
+                    <NumberFieldDecrement @click="conv2dStore.decrementPadding(); conv2dStore.resetKernel()" />
                     <NumberFieldInput />
-                    <NumberFieldIncrement @click="conv2dStore.padding++; conv2dStore.resetKernel()" />
+                    <NumberFieldIncrement @click="conv2dStore.incrementPadding(); conv2dStore.resetKernel()" />
                 </NumberFieldContent>
             </NumberField>
             <PremadeImages />
