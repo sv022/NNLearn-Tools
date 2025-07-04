@@ -38,18 +38,18 @@
         let w = posX;
         let h = posY;
 
-        if (w < r + 1) {
-            w = r;
-        } else if (w > width.value - r) {
-            w = width.value - r - 1
+        if (w <= r) {
+            w = Math.round(r / 2);
+        } else if (w >= width.value - r) {
+            w = width.value - (r * 2)
         } else {
             w--
         }
 
-        if (h < r + 1) {
-            h = r;
-        } else if (h > height.value - r) {
-            h = height.value - r - 1
+        if (h <= r) {
+            h = Math.round(r / 2);
+        } else if (h >= height.value - r) {
+            h = height.value - (r * 2)
         } else {
             h--
         }

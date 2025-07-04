@@ -9,6 +9,7 @@
     import { useconv2dStore } from '@/stores/conv2d';
     import Label from '../ui/label/Label.vue';
     import Slider from '../ui/slider/Slider.vue';
+    import { cn } from '@/lib/utils';
 
     const conv2dStore = useconv2dStore()
 
@@ -17,10 +18,11 @@
         pixelValue: number
         posX: number
         posY: number
+        size: string
     }>();
 
     const val = ref<number[]>([Math.round(props.value * 100) / 100])
-    const pixelVal = computed<number>(() => props.pixelValue)
+    const pixelVal = computed<number>(() => props.pixelValue || 0)
 
     const pixelValue = computed({
         get() {
@@ -37,7 +39,7 @@
 <template>
     <HoverCard>
         <HoverCardTrigger>
-            <div class="flex justify-center items-center size-15 border text-gray-500"
+            <div :class="cn('flex justify-center items-center size-15 border text-gray-500', props.size)"
                 :style="{ backgroundColor: grayscaleToHex(pixelVal), color: invertGrayscaleToHex(pixelVal) }">
                 {{ pixelVal.toFixed(2) }}
             </div>

@@ -7,6 +7,7 @@
     import grayscaleToHex from '@/utils/grayscaleToHex';
     import invertGrayscaleToHex from '@/utils/invertGrayscale';
     import { storeToRefs } from 'pinia';
+    import getPixelSize from '@/utils/pixelSize';
 
     const conv2dstore = useconv2dStore()
 
@@ -21,6 +22,7 @@
         }
         const w = visualsStore.highlightPixel[0]
         const h = visualsStore.highlightPixel[1]
+
         return conv2dstore.output.pixels[((w - 1) * conv2dstore.output.width) + (h - 1)].toFixed(2)
     })
 
@@ -40,6 +42,10 @@
     const { kernel } = storeToRefs(conv2dstore)
     const { framePixelValues } = storeToRefs(visualsStore)
 
+    const kernelPixelSize = computed(() => {
+        return getPixelSize(kernel.value.height, kernel.value.width)
+    })
+
 </script>
 
 <template>
@@ -50,7 +56,7 @@
                     v-bind:key="conv2dstore.kernel.height * (i - 1) + j"
                     :value="kernel.pixels[((i - 1) * kernel.width) + (j - 1)]"
                     :pixel-value="framePixelValues[((i - 1) * conv2dstore.kernel.width) + (j - 1)]" :pos-x="i"
-                    :pos-y="j" />
+                    :pos-y="j" :size="kernelPixelSize" />
             </div>
         </div>
         <div class="flex flex-col items-center justify-center text-center">
