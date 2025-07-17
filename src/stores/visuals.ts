@@ -1,34 +1,26 @@
 import type { Image } from '@/types/image'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import {getFrame, getPixelValuesForFrame} from '@/utils/framePixelsMapping'
+
 
 export const useVisualsStore = defineStore('visuals', () => {
-  const highlightFrame = ref<number[][][]>([])
+  const highlightFrame = ref<number[][]>([])
   const highlightPixel = ref<number[]>([])
   const framePixelValues = ref<number[]>(Array.from({ length: 3 * 3 }, () => 0))
 
-  function getHighlightFrame(w: number, h: number, r: number, inputPixels: Image) {
-    const frame: number[][][] = []
-    framePixelValues.value = []
+  function getHighlightFrame(w: number, h: number, size: number, inputPixels: Image, padding : number, stride : number) {
+    const frame: number[][] = getFrame(w, h, size, padding, stride, inputPixels.width)
+    framePixelValues.value = getPixelValuesForFrame(inputPixels, frame)
 
-    for (let i = w; i <= w + r * 2; i++) {
-      const row = []
-      for (let j = h; j <= h + r * 2; j++) {
-        row.push([i, j])
-        framePixelValues.value.push(inputPixels.pixels[(i - 1) * inputPixels.width + (j - 1)])
-      }
-      frame.push(row)
-    }
     highlightFrame.value = frame
     highlightPixel.value = [w, h]
   }
 
   function checkHighlight(i: number, j: number, kernelSize: number): boolean {
     if (highlightFrame.value.length === 0) return false
-    for (let k = 0; k < kernelSize; k++) {
-      for (let l = 0; l < kernelSize; l++) {
-        if (highlightFrame.value[k][l][0] === i && highlightFrame.value[k][l][1] === j) return true
-      }
+    for (let k = 0; k < highlightFrame.value.length; k++) {
+      if (highlightFrame.value[k][0] == i && highlightFrame.value[k][1] == j) return true
     }
     return false
   }

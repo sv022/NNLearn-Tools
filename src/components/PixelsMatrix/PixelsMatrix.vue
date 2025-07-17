@@ -27,6 +27,9 @@
         let w = wIn;
         let h = hIn;
 
+        w = Math.round(w / conv2dStore.stride)
+        h = Math.round(h / conv2dStore.stride)
+
         if (w <= r) {
             w = Math.round(r / 2);
         } else if (w >= width.value - r) {
@@ -43,7 +46,10 @@
             h--
         }
 
-        visualsStore.getHighlightFrame(w, h, r, conv2dStore.inputResult)
+        w = Math.min(w, width.value - r - (conv2dStore.stride - 1) * 4)
+        h = Math.min(h, height.value - r - (conv2dStore.stride - 1) * 4)
+
+        visualsStore.getHighlightFrame(w, h, conv2dStore.kernel.width, conv2dStore.inputResult, conv2dStore.padding, conv2dStore.stride)
     }
 </script>
 

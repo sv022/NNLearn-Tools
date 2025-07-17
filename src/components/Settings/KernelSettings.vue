@@ -55,6 +55,15 @@
                     <NumberFieldIncrement @click="conv2dStore.incrementKernelSize(); visualsStore.clearHighlight()" />
                 </NumberFieldContent>
             </NumberField>
+            <NumberField class="p-2" id="size" :disabled="conv2dStore.isKernelSelected" :default-value="1" :min="1"
+                :step="1" :max="2" :model-value="conv2dStore.stride">
+                <Label for="size">Stride</Label>
+                <NumberFieldContent>
+                    <NumberFieldDecrement @click="conv2dStore.stride--; visualsStore.clearHighlight()" />
+                    <NumberFieldInput />
+                    <NumberFieldIncrement @click="conv2dStore.stride++; visualsStore.clearHighlight()" />
+                </NumberFieldContent>
+            </NumberField>
             <div class="p-2">
                 <Select v-model="selectedKernel" @update:model-value="setKernel">
                     <SelectTrigger class="w-[180px]">

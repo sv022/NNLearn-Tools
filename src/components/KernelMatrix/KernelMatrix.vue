@@ -55,7 +55,7 @@
                 <KernelPixelItem v-for="j in conv2dstore.kernel.height"
                     v-bind:key="conv2dstore.kernel.height * (i - 1) + j"
                     :value="kernel.pixels[((i - 1) * kernel.width) + (j - 1)]"
-                    :pixel-value="framePixelValues[((i - 1) * conv2dstore.kernel.width) + (j - 1)]" :pos-x="i"
+                    :pixel-value="framePixelValues[((j - 1) * conv2dstore.kernel.width) + (i - 1)]" :pos-x="i"
                     :pos-y="j" :size="kernelPixelSize" />
             </div>
         </div>

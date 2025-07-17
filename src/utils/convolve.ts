@@ -1,14 +1,23 @@
 import type { Image } from '@/types/image'
 
-export default function convolve(image: Image, kernel: Image, padding: number = 0): Image {
-
+export default function convolve(
+  image: Image,
+  kernel: Image,
+  padding: number = 0,
+  stride: number = 1,
+): Image {
   if (kernel.width % 2 !== 1 || kernel.height % 2 !== 1) {
     throw new Error('Kernel dimensions should be odd numbers')
+  }
+
+  if (stride <= 0) {
+    throw new Error('Stride should be a positive number')
   }
 
   const halfKernelWidth = Math.floor(kernel.width / 2)
   const halfKernelHeight = Math.floor(kernel.height / 2)
 
+  // Добавляем padding к изображению
   const paddedWidth = image.width + 2 * padding
   const paddedHeight = image.height + 2 * padding
   const paddedImage = new Array(paddedWidth * paddedHeight).fill(0)
@@ -21,8 +30,9 @@ export default function convolve(image: Image, kernel: Image, padding: number = 
     }
   }
 
-  const resultWidth = image.width + 2 * padding - kernel.width + 1
-  const resultHeight = image.height + 2 * padding - kernel.height + 1
+  // Рассчитываем размеры выходного изображения с учетом stride
+  const resultWidth = Math.floor((image.width + 2 * padding - kernel.width) / stride) + 1
+  const resultHeight = Math.floor((image.height + 2 * padding - kernel.height) / stride) + 1
 
   if (resultWidth <= 0 || resultHeight <= 0) {
     return {
@@ -34,14 +44,18 @@ export default function convolve(image: Image, kernel: Image, padding: number = 
 
   const resultPixels = new Array(resultWidth * resultHeight).fill(0)
 
+  // Применяем свертку с учетом stride
   for (let y = 0; y < resultHeight; y++) {
     for (let x = 0; x < resultWidth; x++) {
       let sum = 0
 
+      const origY = y * stride
+      const origX = x * stride
+
       for (let ky = 0; ky < kernel.height; ky++) {
         for (let kx = 0; kx < kernel.width; kx++) {
-          const imageX = x + kx
-          const imageY = y + ky
+          const imageX = origX + kx
+          const imageY = origY + ky
           const imageValue = paddedImage[imageY * paddedWidth + imageX]
           const kernelValue = kernel.pixels[ky * kernel.width + kx]
 

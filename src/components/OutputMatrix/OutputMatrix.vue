@@ -10,8 +10,7 @@
     const visualsStore = useVisualsStore()
 
     function getHighlightFrame(w: number, h: number) {
-        const r = Math.floor(conv2dstore.kernel.width / 2)
-        visualsStore.getHighlightFrame(w, h, r, conv2dstore.inputResult)
+        visualsStore.getHighlightFrame(w, h, conv2dstore.kernel.width, conv2dstore.inputResult, conv2dstore.padding, conv2dstore.stride)
     }
 
     const width = computed(() => {

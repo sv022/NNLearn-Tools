@@ -16,6 +16,7 @@ export const useconv2dStore = defineStore('conv2d', () => {
   const kernel = ref<Image>(getRandomKernel(3))
 
   const padding = ref<number>(0)
+  const stride = ref<number>(1)
   const isExampleSelected = ref<boolean>(false)
   const isKernelSelected = ref<boolean>(false)
 
@@ -81,13 +82,14 @@ export const useconv2dStore = defineStore('conv2d', () => {
   resetInput()
 
   const output = computed(() => {
-    return convolve(input.value, kernel.value, padding.value)
+    return convolve(input.value, kernel.value, padding.value, stride.value)
   })
 
   return {
     kernel,
     input,
     padding,
+    stride,
     inputResult,
     isExampleSelected,
     isKernelSelected,
