@@ -9,10 +9,8 @@
     import { Label } from '@/components/ui/label'
     import { computed, ref } from 'vue';
     import { useconv2dStore } from '@/stores/conv2d';
-    import { useVisualsStore } from '@/stores/visuals';
 
     const conv2dStore = useconv2dStore()
-    const visualsStore = useVisualsStore()
 
     const props = defineProps<{
         value: number
@@ -32,7 +30,7 @@
     })
 
     const updatePixel = (posX: number, posY: number, value: number) => {
-        conv2dStore.setImagePixel(posX - 1, posY - 1, value)
+        conv2dStore.setImagePixel(posX - 1 - conv2dStore.padding, posY - 1 - conv2dStore.padding, value)
         const r = Math.floor(conv2dStore.kernel.width / 2)
 
         let w = posX;
@@ -53,7 +51,7 @@
         } else {
             h--
         }
-        visualsStore.getHighlightFrame(w, h, r, conv2dStore.input)
+        // visualsStore.getHighlightFrame(w, h, r, conv2dStore.input)
     }
 
 
