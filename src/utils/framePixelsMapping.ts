@@ -9,8 +9,13 @@ export function getFrame(
   originalWidth: number,
 ): number[][] {
   const r = Math.floor(kernelSize / 2)
-  const centerX = outputX * stride + r
-  const centerY = outputY * stride + r
+  let centerX = outputX * stride + r
+  let centerY = outputY * stride + r
+
+  if (stride > 1){
+    centerX--
+    centerY--
+  }
 
   const startX = centerX - r
   const startY = centerY - r

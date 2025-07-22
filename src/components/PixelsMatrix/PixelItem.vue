@@ -59,7 +59,7 @@
 
 <template>
     <div>
-        <HoverCard>
+        <HoverCard :open-delay="1500" :close-delay="1000">
             <HoverCardTrigger>
                 <div :class="cn('flex items-center justify-center size-5 text-[8px] border text-gray-400', props.size, { 'border-red-500': props.highlight })"
                     :style="{ backgroundColor: grayscaleToHex(props.value) }">
