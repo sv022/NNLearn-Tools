@@ -7,7 +7,6 @@
     import grayscaleToHex from '@/utils/grayscaleToHex';
     import invertGrayscaleToHex from '@/utils/invertGrayscale';
     import { storeToRefs } from 'pinia';
-    import getPixelSize from '@/utils/pixelSize';
 
     const conv2dstore = useconv2dStore()
 
@@ -43,32 +42,48 @@
     const { framePixelValues } = storeToRefs(visualsStore)
 
     const kernelPixelSize = computed(() => {
-        return getPixelSize(kernel.value.height, kernel.value.width)
+      if (conv2dstore.kernel.width === 7) return 'size-7'
+      if (conv2dstore.kernel.width === 5) return 'size-13'
+      return 'size-15'
     })
+
+    const pixelSpacing = computed(() => {
+      if (kernel.value.height == 7) return 'flex space-x-7'
+      if (kernel.value.height == 5) return 'flex space-x-10'
+      return 'flex space-x-11'
+    })
+
+    const kernelSum = computed(() => {
+        return conv2dstore.kernel.pixels.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    })
+
 
 </script>
 
 <template>
     <div class="space-y-5">
-        <div>
-            <div v-for="i in conv2dstore.kernel.height" v-bind:key="i" class="flex space-x-10">
-                <KernelPixelItem v-for="j in conv2dstore.kernel.height"
-                    v-bind:key="conv2dstore.kernel.height * (i - 1) + j"
-                    :value="kernel.pixels[((i - 1) * kernel.width) + (j - 1)]"
-                    :pixel-value="framePixelValues[((j - 1) * conv2dstore.kernel.width) + (i - 1)]" :pos-x="i"
-                    :pos-y="j" :size="kernelPixelSize" />
-            </div>
-        </div>
-        <div class="flex flex-col items-center justify-center text-center">
-            <div class="font-bold text-2xl">
-                =
-            </div>
-            <div class="flex size-15 items-center justify-center"
-                :style="{ backgroundColor: outputPixelBGColor, color: outputPixelTextColor }">
-                {{ outputPixelValue }}
-            </div>
+      <div class="text-center">
+        Kernel sum: <mark class="bg-transparent font-bold text-emerald-800">{{ Math.round(kernelSum * 100) / 100 }}</mark>
+      </div>
+      <div>
+          <div v-for="i in conv2dstore.kernel.height" v-bind:key="i" :class="pixelSpacing">
+              <KernelPixelItem v-for="j in conv2dstore.kernel.height"
+                  v-bind:key="conv2dstore.kernel.height * (i - 1) + j"
+                  :value="kernel.pixels[((i - 1) * kernel.width) + (j - 1)]"
+                  :pixel-value="framePixelValues[((j - 1) * conv2dstore.kernel.width) + (i - 1)]" :pos-x="i"
+                  :pos-y="j" :size="kernelPixelSize" />
+          </div>
+      </div>
+      <div class="flex flex-col items-center justify-center text-center">
+          <div class="font-bold text-2xl">
+              =
+          </div>
+          <div class="flex size-15 items-center justify-center"
+              :style="{ backgroundColor: outputPixelBGColor, color: outputPixelTextColor }">
+              {{ outputPixelValue }}
+          </div>
 
-        </div>
+      </div>
     </div>
 
 
