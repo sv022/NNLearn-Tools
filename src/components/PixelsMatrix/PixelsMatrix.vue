@@ -26,28 +26,31 @@
 
         let w = wIn;
         let h = hIn;
+        console.log(w, h, r)
 
         w = Math.round(w / conv2dStore.stride)
         h = Math.round(h / conv2dStore.stride)
 
         if (w <= r) {
-            w = Math.round(r / 2);
+          if (r === 1) w = r
+          else w = Math.round((r - 0.1) / 2);
         } else if (w >= width.value - r) {
-            w = width.value - (r * 2)
+          w = width.value - (r * 2)
         } else {
-            w--
+          w--
         }
 
         if (h <= r) {
-            h = Math.round(r / 2);
+          if (r === 1) h = r
+          else h = Math.round((r - 0.1) / 2)
         } else if (h >= height.value - r) {
             h = height.value - (r * 2)
         } else {
             h--
         }
 
-        w = Math.min(w, width.value - r - (conv2dStore.stride - 1) * 4)
-        h = Math.min(h, height.value - r - (conv2dStore.stride - 1) * 4)
+        // w = Math.min(w, width.value - r - (conv2dStore.stride - 1) * 4)
+        // h = Math.min(h, height.value - r - (conv2dStore.stride - 1) * 4)
 
         visualsStore.getHighlightFrame(w, h, conv2dStore.kernel.width, conv2dStore.inputResult, conv2dStore.padding, conv2dStore.stride)
     }

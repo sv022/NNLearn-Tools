@@ -11,6 +11,7 @@ export const useVisualsStore = defineStore('visuals', () => {
 
   function getHighlightFrame(w: number, h: number, size: number, inputPixels: Image, padding : number, stride : number) {
     const frame: number[][] = getFrame(w, h, size, padding, stride, inputPixels.width)
+    if (frame.length < size * size) return
     framePixelValues.value = getPixelValuesForFrame(inputPixels, frame)
 
     highlightFrame.value = frame
