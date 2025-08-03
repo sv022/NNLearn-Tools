@@ -25,7 +25,8 @@
 
   const conv2dStore = useconv2dStore()
 
-  async function onDrop(files : File[]) {
+  async function onDrop(files : File[] | null) {
+    if (!files) return
     const imageBlob = await (files[0].bytes())
     const pixelsRGB = await (jpegUint8ArrayToRgb(imageBlob))
     const pixelsGrayscale = rgbToGrayscale(Array.from(pixelsRGB.data))
@@ -51,6 +52,7 @@
 
   const dropZoneRef = ref<HTMLDivElement>()
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isOverDropZone } = useDropZone(dropZoneRef, {
     onDrop,
     dataTypes: ['image/jpeg', 'image/png'],
