@@ -1,17 +1,18 @@
-<script setup
-    lang="ts">
-    import { Label } from '@/components/ui/label'
-    import {
-        NumberField,
-        NumberFieldContent,
-        NumberFieldDecrement,
-        NumberFieldIncrement,
-        NumberFieldInput,
-    } from '@/components/ui/number-field'
-    import PremadeImages from './PremadeImages.vue';
-    import { useconv2dStore } from '@/stores/conv2d';
+<script setup lang="ts">
+  import { Label } from '@/components/ui/label'
+  import {
+      NumberField,
+      NumberFieldContent,
+      NumberFieldDecrement,
+      NumberFieldIncrement,
+      NumberFieldInput,
+  } from '@/components/ui/number-field'
 
-    const conv2dStore = useconv2dStore()
+  import PremadeImages from './PremadeImages.vue';
+  import { useconv2dStore } from '@/stores/conv2d';
+  import ImageUpload from './ImageUpload.vue';
+
+  const conv2dStore = useconv2dStore()
 
 </script>
 
@@ -40,7 +41,7 @@
                 </NumberFieldContent>
             </NumberField>
             <PremadeImages />
+            <ImageUpload />
         </div>
     </div>
-
 </template>
