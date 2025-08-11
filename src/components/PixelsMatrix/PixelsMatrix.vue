@@ -52,6 +52,7 @@
         // w = Math.min(w, width.value - r - (conv2dStore.stride - 1) * 4)
         // h = Math.min(h, height.value - r - (conv2dStore.stride - 1) * 4)
 
+        visualsStore.channel = 'GS'
         visualsStore.getHighlightFrame(w, h, conv2dStore.kernel.width, conv2dStore.inputResult, conv2dStore.padding, conv2dStore.stride)
     }
 </script>

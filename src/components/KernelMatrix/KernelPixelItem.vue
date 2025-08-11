@@ -10,11 +10,13 @@
     import Label from '../ui/label/Label.vue';
     import Slider from '../ui/slider/Slider.vue';
     import { cn } from '@/lib/utils';
+import grayscaleToHexChannel from '@/utils/grayscaleToRGB';
 
     const conv2dStore = useconv2dStore()
 
     const props = defineProps<{
         value: number
+        channel: 'R' | 'G' | 'B' | 'GS'
         pixelValue: number
         posX: number
         posY: number
@@ -44,6 +46,13 @@
       return 'text-neutral-700'
     })
 
+    const bgColor = computed<string>(() => {
+      if (props.channel == 'GS') {
+        return grayscaleToHex(pixelVal.value)
+      }
+      return grayscaleToHexChannel(pixelVal.value, props.channel)
+    })
+
 
 </script>
 
@@ -52,7 +61,7 @@
       <div class="flex flex-col items-center">
         <HoverCardTrigger>
             <div :class="cn('flex justify-center items-center border text-gray-500', props.size, pixelFontSize)"
-                :style="{ backgroundColor: grayscaleToHex(pixelVal), color: invertGrayscaleToHex(pixelVal) }">
+                :style="{ backgroundColor: bgColor, color: invertGrayscaleToHex(pixelVal) }">
                 {{ pixelVal.toFixed(2) }}
             </div>
           </HoverCardTrigger>

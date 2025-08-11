@@ -7,6 +7,7 @@
     import grayscaleToHex from '@/utils/grayscaleToHex';
     import invertGrayscaleToHex from '@/utils/invertGrayscale';
     import { storeToRefs } from 'pinia';
+import grayscaleToHexChannel from '@/utils/grayscaleToRGB';
 
     const conv2dstore = useconv2dStore()
 
@@ -29,13 +30,19 @@
         if (outputPixelValue.value === "-") {
             return "#FFFFFF"
         }
-        return grayscaleToHex(Number(outputPixelValue.value))
+        if (visualsStore.channel === 'GS') {
+          return grayscaleToHex(Number(outputPixelValue.value))
+        }
+        return grayscaleToHexChannel(Number(outputPixelValue.value), visualsStore.channel)
     })
     const outputPixelTextColor = computed<string>(() => {
         if (outputPixelValue.value === "-") {
             return "#000000"
         }
-        return invertGrayscaleToHex(Number(outputPixelValue.value))
+        if (visualsStore.channel === 'GS') {
+          return invertGrayscaleToHex(Number(outputPixelValue.value))
+        }
+        return '#FFFFFF'
     })
 
     const { kernel } = storeToRefs(conv2dstore)
@@ -69,7 +76,7 @@
           <div v-for="i in conv2dstore.kernel.height" v-bind:key="i" :class="pixelSpacing">
               <KernelPixelItem v-for="j in conv2dstore.kernel.height"
                   v-bind:key="conv2dstore.kernel.height * (i - 1) + j"
-                  :value="kernel.pixels[((i - 1) * kernel.width) + (j - 1)]"
+                  :value="kernel.pixels[((i - 1) * kernel.width) + (j - 1)]" :channel="visualsStore.channel"
                   :pixel-value="framePixelValues[((j - 1) * conv2dstore.kernel.width) + (i - 1)]" :pos-x="i"
                   :pos-y="j" :size="kernelPixelSize" />
           </div>

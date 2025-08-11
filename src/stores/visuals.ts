@@ -1,15 +1,22 @@
 import type { Image } from '@/types/image'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import {getFrame, getPixelValuesForFrame} from '@/utils/framePixelsMapping'
-
+import { getFrame, getPixelValuesForFrame } from '@/utils/framePixelsMapping'
 
 export const useVisualsStore = defineStore('visuals', () => {
   const highlightFrame = ref<number[][]>([])
   const highlightPixel = ref<number[]>([])
   const framePixelValues = ref<number[]>(Array.from({ length: 3 * 3 }, () => 0))
+  const channel = ref<'R' | 'G' | 'B' | 'GS'>('GS')
 
-  function getHighlightFrame(w: number, h: number, size: number, inputPixels: Image, padding : number, stride : number) {
+  function getHighlightFrame(
+    w: number,
+    h: number,
+    size: number,
+    inputPixels: Image,
+    padding: number,
+    stride: number,
+  ) {
     const frame: number[][] = getFrame(w, h, size, padding, stride, inputPixels.width)
     if (frame.length < size * size) return
     framePixelValues.value = getPixelValuesForFrame(inputPixels, frame)
@@ -32,6 +39,7 @@ export const useVisualsStore = defineStore('visuals', () => {
   }
 
   return {
+    channel,
     highlightFrame,
     highlightPixel,
     framePixelValues,
