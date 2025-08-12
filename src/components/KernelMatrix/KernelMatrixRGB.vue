@@ -1,6 +1,5 @@
 <script setup
     lang="ts">
-    import { useconv2dStore } from '@/stores/conv2d';
     import KernelPixelItem from './KernelPixelItem.vue';
     import { useVisualsStore } from '@/stores/visuals';
     import { computed } from 'vue';
@@ -8,22 +7,28 @@
     import invertGrayscaleToHex from '@/utils/invertGrayscale';
     import { storeToRefs } from 'pinia';
     import grayscaleToHexChannel from '@/utils/grayscaleToRGB';
+    import { useconvRGBStore } from '@/stores/convRGB';
 
-    const conv2dstore = useconv2dStore()
+    const convRGBStore = useconvRGBStore()
 
     const visualsStore = useVisualsStore()
 
     const outputPixelValue = computed<string>(() => {
+        const channel = visualsStore.channel
         if (visualsStore.highlightPixel.length === 0) {
             return "-"
         }
-        if (conv2dstore.output.pixels.length === 0) {
+        if (convRGBStore.outputR.pixels.length === 0) {
             return "-"
         }
         const w = visualsStore.highlightPixel[0]
         const h = visualsStore.highlightPixel[1]
 
-        return conv2dstore.output.pixels[((w - 1) * conv2dstore.output.width) + (h - 1)].toFixed(2)
+        if (channel === 'R') return convRGBStore.outputR.pixels[((w - 1) * convRGBStore.outputR.width) + (h - 1)].toFixed(2)
+        if (channel === 'G') return convRGBStore.outputG.pixels[((w - 1) * convRGBStore.outputG.width) + (h - 1)].toFixed(2)
+        if (channel === 'B') return convRGBStore.outputB.pixels[((w - 1) * convRGBStore.outputB.width) + (h - 1)].toFixed(2)
+
+        return '-'
     })
 
     const outputPixelBGColor = computed<string>(() => {
@@ -45,12 +50,12 @@
         return '#FFFFFF'
     })
 
-    const { kernel } = storeToRefs(conv2dstore)
+    const { kernel } = storeToRefs(convRGBStore)
     const { framePixelValues } = storeToRefs(visualsStore)
 
     const kernelPixelSize = computed(() => {
-      if (conv2dstore.kernel.width === 7) return 'size-7'
-      if (conv2dstore.kernel.width === 5) return 'size-13'
+      if (convRGBStore.kernel.width === 7) return 'size-7'
+      if (convRGBStore.kernel.width === 5) return 'size-13'
       return 'size-15'
     })
 
@@ -61,7 +66,7 @@
     })
 
     const kernelSum = computed(() => {
-        return conv2dstore.kernel.pixels.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+        return convRGBStore.kernel.pixels.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
     })
 
 
@@ -73,11 +78,11 @@
         Kernel sum: <mark class="bg-transparent font-bold text-emerald-800">{{ Math.round(kernelSum * 100) / 100 }}</mark>
       </div>
       <div>
-          <div v-for="i in conv2dstore.kernel.height" v-bind:key="i" :class="pixelSpacing">
-              <KernelPixelItem v-for="j in conv2dstore.kernel.height"
-                  v-bind:key="conv2dstore.kernel.height * (i - 1) + j"
+          <div v-for="i in convRGBStore.kernel.height" v-bind:key="i" :class="pixelSpacing">
+              <KernelPixelItem v-for="j in convRGBStore.kernel.height"
+                  v-bind:key="convRGBStore.kernel.height * (i - 1) + j"
                   :value="kernel.pixels[((i - 1) * kernel.width) + (j - 1)]" :channel="visualsStore.channel"
-                  :pixel-value="framePixelValues[((j - 1) * conv2dstore.kernel.width) + (i - 1)]" :pos-x="i"
+                  :pixel-value="framePixelValues[((j - 1) * convRGBStore.kernel.width) + (i - 1)]" :pos-x="i"
                   :pos-y="j" :size="kernelPixelSize" />
           </div>
       </div>

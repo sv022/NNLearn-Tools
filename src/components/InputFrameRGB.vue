@@ -1,7 +1,7 @@
 <script setup
   lang="ts">
 
-  import KernelMatrix from './KernelMatrix/KernelMatrix.vue';
+  import KernelMatrix from './KernelMatrix/KernelMatrixRGB.vue';
 import OutputMatrixB from './OutputMatrixRGB/OutputMatrixB.vue';
 import OutputMatrixG from './OutputMatrixRGB/OutputMatrixG.vue';
 import OutputMatrixR from './OutputMatrixRGB/OutputMatrixR.vue';

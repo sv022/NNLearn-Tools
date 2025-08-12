@@ -10,7 +10,7 @@
     import Label from '../ui/label/Label.vue';
     import Slider from '../ui/slider/Slider.vue';
     import { cn } from '@/lib/utils';
-import grayscaleToHexChannel from '@/utils/grayscaleToRGB';
+    import grayscaleToHexChannel from '@/utils/grayscaleToRGB';
 
     const conv2dStore = useconv2dStore()
 

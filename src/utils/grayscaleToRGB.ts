@@ -1,5 +1,8 @@
 export default function grayscaleToHexChannel(value: number, channel: 'R' | 'G' | 'B'): string {
-  const byteValue = Math.round(value * 255)
+  let byteValue = Math.round(value * 255)
+
+  if (byteValue < 0) return '#000000'
+  if (byteValue > 255) byteValue = 255
 
   const hexByte = byteValue.toString(16).padStart(2, '0')
 
