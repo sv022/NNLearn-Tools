@@ -2,6 +2,14 @@
   lang="ts">
   import InputFrameRGB from '@/components/InputFrameRGB.vue';
   import SettingsFrame from '@/components/SettingsFrameRGB.vue';
+  import { useVisualsStore } from '@/stores/visuals';
+  import { onMounted } from 'vue';
+
+  const visualsStore = useVisualsStore()
+
+  onMounted(() => {
+    visualsStore.channel = 'R'
+  })
 </script>
 
 <template>

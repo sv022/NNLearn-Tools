@@ -7,15 +7,10 @@ import getKernel from '@/utils/exampleKernels'
 import type { Kernels } from '@/types/kernels'
 import type { ImageRGB } from '@/types/imageRGB'
 import type { Image } from '@/types/image'
+import { exampleImagesRGB } from '@/utils/exampleImagesRGB'
 
 export const useconvRGBStore = defineStore('convrgb', () => {
-  const input = ref<ImageRGB>({
-    R: [],
-    G: [],
-    B: [],
-    width: 8,
-    height: 8,
-  })
+  const input = ref<ImageRGB>(exampleImagesRGB[0])
   const kernel = ref<Image>(getRandomKernel(3))
 
   const padding = ref<number>(0)
@@ -23,14 +18,15 @@ export const useconvRGBStore = defineStore('convrgb', () => {
   const isExampleSelected = ref<boolean>(false)
   const isKernelSelected = ref<boolean>(false)
 
-  function setImage(pixels: number[], widthNew: number, heightNew: number) {}
+  function setImage(image: ImageRGB) {
+    input.value.R = image.R
+    input.value.G = image.G
+    input.value.B = image.B
+    input.value.width = image.width
+    input.value.height = image.height
+  }
 
   function resetInput() {
-    input.value.R = Array.from({ length: 32 * 32 }, () => Math.random())
-    input.value.G = Array.from({ length: 32 * 32 }, () => Math.random())
-    input.value.B = Array.from({ length: 32 * 32 }, () => Math.random())
-    input.value.width = 8
-    input.value.height = 8
     isExampleSelected.value = false
     padding.value = 0
   }

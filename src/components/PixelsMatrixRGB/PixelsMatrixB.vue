@@ -3,7 +3,6 @@
   import PixelItem from './PixelItemRGB.vue';
   import { computed } from 'vue';
   import { useVisualsStore } from '@/stores/visuals';
-  import getPixelSize from '@/utils/pixelSize';
   import { useconvRGBStore } from '@/stores/convRGB';
 
   const convRGBStore = useconvRGBStore()
@@ -18,7 +17,7 @@
   })
 
   const pixelSize = computed(() => {
-      return getPixelSize(width.value * 3, height.value * 3)
+      return 'size-4'
   })
 
     function getHighlightFrame(wIn: number, hIn: number) {

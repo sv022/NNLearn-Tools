@@ -1,22 +1,19 @@
 <script setup
     lang="ts">
-
-    import { Label } from '@/components/ui/label'
-    import { useconv2dStore } from '@/stores/conv2d';
+    import { useconvRGBStore } from '@/stores/convRGB';
     import { useVisualsStore } from '@/stores/visuals';
-    import exampleImages from '@/utils/exampleImages';
-    const conv2dstore = useconv2dStore()
+    import { exampleImagesRGB } from '@/utils/exampleImagesRGB';
+
+    const convRGBStore = useconvRGBStore()
     const visualsStore = useVisualsStore()
+
 
     function setImage(index: number): void {
         visualsStore.clearHighlight()
-        conv2dstore.resetInput()
-        if (index == 0) {
-            return
-        }
-        conv2dstore.resetKernel()
-        conv2dstore.setImage(exampleImages(index), 28, 28)
-        conv2dstore.isExampleSelected = true
+        convRGBStore.resetInput()
+        convRGBStore.resetKernel()
+        convRGBStore.setImage(exampleImagesRGB[index])
+        convRGBStore.isExampleSelected = true
     }
 
 </script>
@@ -24,12 +21,10 @@
 
     <div class="p-2">
         <Label>Example images</Label>
-        <div class="flex p-2 flex-wrap space-y-2">
-            <img width="80" src="@/assets/image_random.png" alt="0" @click="setImage(0)">
-            <img width="80" src="@/assets/image_0.png" alt="0" @click="setImage(1)">
-            <img width="80" src="@/assets/image_2.png" alt="0" @click="setImage(2)">
-            <img width="80" src="@/assets/image_1.png" alt="0" @click="setImage(3)">
-            <img width="80" src="@/assets/image_3.png" alt="0" @click="setImage(4)">
+        <div class="flex p-2 flex-wrap space-x-2">
+            <img class="size-[80px]" width="80" src="@/assets/imageRGB_0.jpg" alt="0" @click="setImage(0)">
+            <img class="size-[80px]" width="80" src="@/assets/imageRGB_1.jpg" alt="0" @click="setImage(1)">
+            <img class="size-[80px]" width="80" src="@/assets/imageRGB_2.jpg" alt="0" @click="setImage(2)">
         </div>
     </div>
 
