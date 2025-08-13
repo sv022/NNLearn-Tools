@@ -3,6 +3,7 @@
     import { useconvRGBStore } from '@/stores/convRGB';
     import { useVisualsStore } from '@/stores/visuals';
     import { exampleImagesRGB } from '@/utils/exampleImagesRGB';
+    import Label from '../ui/label/Label.vue';
 
     const convRGBStore = useconvRGBStore()
     const visualsStore = useVisualsStore()

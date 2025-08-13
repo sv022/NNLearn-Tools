@@ -24,6 +24,10 @@
         const w = visualsStore.highlightPixel[0]
         const h = visualsStore.highlightPixel[1]
 
+        if (w > convRGBStore.outputR.width || h > convRGBStore.outputR.height) {
+            return "-"
+        }
+
         if (channel === 'R') return convRGBStore.outputR.pixels[((w - 1) * convRGBStore.outputR.width) + (h - 1)].toFixed(2)
         if (channel === 'G') return convRGBStore.outputG.pixels[((w - 1) * convRGBStore.outputG.width) + (h - 1)].toFixed(2)
         if (channel === 'B') return convRGBStore.outputB.pixels[((w - 1) * convRGBStore.outputB.width) + (h - 1)].toFixed(2)
