@@ -11,8 +11,10 @@
     import Slider from '../ui/slider/Slider.vue';
     import { cn } from '@/lib/utils';
     import grayscaleToHexChannel from '@/utils/grayscaleToRGB';
+    import { useconvRGBStore } from '@/stores/convRGB';
 
     const conv2dStore = useconv2dStore()
+    const convRGBStore = useconvRGBStore()
 
     const props = defineProps<{
         value: number
@@ -53,6 +55,14 @@
       return grayscaleToHexChannel(pixelVal.value, props.channel)
     })
 
+    const setKernelPixel = () => {
+      if (props.channel == 'GS') {
+        conv2dStore.setKernelPixel(props.posX - 1, props.posY - 1, val.value[0])
+        return;
+      }
+      convRGBStore.setKernelPixel(props.posX - 1, props.posY - 1, val.value[0])
+    }
+
 
 </script>
 
@@ -73,7 +83,7 @@
             <div class="space-y-2">
                 <Label class="p-2" for="slider">Kernel value: {{ pixelValue }}</Label>
                 <Slider id="slider" v-model="pixelValue" :min="-1" :max="1" :step="0.01"
-                    @update:model-value="conv2dStore.setKernelPixel(props.posX - 1, props.posY - 1, val[0])" />
+                    @update:model-value="setKernelPixel" />
                 <Label class="p-2">Position: ({{ props.posX }}, {{ props.posY }})</Label>
             </div>
         </HoverCardContent>

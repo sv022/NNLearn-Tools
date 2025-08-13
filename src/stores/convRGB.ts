@@ -65,6 +65,10 @@ export const useconvRGBStore = defineStore('convrgb', () => {
     kernel.value = getKernel(kernelType)
   }
 
+  function setKernelPixel(i: number, j: number, value: number) {
+    kernel.value.pixels[i * kernel.value.width + j] = value
+  }
+
   const resetKernel = () => {
     kernel.value = getRandomKernel(3)
     isKernelSelected.value = false
@@ -145,6 +149,7 @@ export const useconvRGBStore = defineStore('convrgb', () => {
     incrementPadding,
     decrementPadding,
     setKernel,
+    setKernelPixel,
     resetKernel,
     setImagePixelRGB,
   }
