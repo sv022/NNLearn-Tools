@@ -10,8 +10,6 @@
 
   const visualsStore = useVisualsStore()
 
-  visualsStore.channels = ['R', 'G', 'B']
-
   const modelR = ref(true)
   const modelG = ref(true)
   const modelB = ref(true)

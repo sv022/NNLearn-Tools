@@ -8,7 +8,7 @@
   const visualsStore = useVisualsStore()
 
   onMounted(() => {
-    visualsStore.channel = 'R'
+    visualsStore.channels = ['R', 'G', 'B']
   })
 </script>
 
