@@ -7,7 +7,7 @@ export const useVisualsStore = defineStore('visuals', () => {
   const highlightFrame = ref<number[][]>([])
   const highlightPixel = ref<number[]>([])
   const framePixelValues = ref<number[]>(Array.from({ length: 3 * 3 }, () => 0))
-  const channel = ref<'R' | 'G' | 'B' | 'GS'>('GS')
+  const channels = ref<('R' | 'G' | 'B' | 'GS')[]>(['GS'])
 
   function getHighlightFrame(
     w: number,
@@ -39,7 +39,7 @@ export const useVisualsStore = defineStore('visuals', () => {
   }
 
   return {
-    channel,
+    channels,
     highlightFrame,
     highlightPixel,
     framePixelValues,

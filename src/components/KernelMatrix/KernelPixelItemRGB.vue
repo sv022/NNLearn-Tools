@@ -1,28 +1,24 @@
 <script setup
   lang="ts">
-  import grayscaleToHex from '@/utils/grayscaleToHex';
   import HoverCard from '../ui/hover-card/HoverCard.vue';
   import HoverCardContent from '../ui/hover-card/HoverCardContent.vue';
   import HoverCardTrigger from '../ui/hover-card/HoverCardTrigger.vue';
-  import invertGrayscaleToHex from '@/utils/invertGrayscale';
   import { computed, ref } from 'vue';
-  import { useconv2dStore } from '@/stores/conv2d';
   import Label from '../ui/label/Label.vue';
   import Slider from '../ui/slider/Slider.vue';
   import { cn } from '@/lib/utils';
+  import { useconvRGBStore } from '@/stores/convRGB';
 
-  const conv2dStore = useconv2dStore()
+  const convRGBStore = useconvRGBStore()
 
   const props = defineProps<{
     value: number
-    pixelValue: number
     posX: number
     posY: number
     size: string
   }>();
 
   const val = ref<number[]>([Math.round(props.value * 100) / 100])
-  const pixelVal = computed<number>(() => props.pixelValue || 0)
 
   const pixelValue = computed({
     get() {
@@ -44,15 +40,14 @@
     return 'text-neutral-700'
   })
 
+  // TODO : display pixel color
   const bgColor = computed<string>(() => {
-    return grayscaleToHex(pixelVal.value)
+    return "#FFFFFF"
   })
 
   const setKernelPixel = () => {
-    conv2dStore.setKernelPixel(props.posX - 1, props.posY - 1, val.value[0])
-    return;
+    convRGBStore.setKernelPixel(props.posX - 1, props.posY - 1, val.value[0])
   }
-
 
 </script>
 
@@ -61,8 +56,7 @@
     <div class="flex flex-col items-center">
       <HoverCardTrigger>
         <div :class="cn('flex justify-center items-center border text-gray-500', props.size, pixelFontSize)"
-          :style="{ backgroundColor: bgColor, color: invertGrayscaleToHex(pixelVal) }">
-          {{ pixelVal.toFixed(2) }}
+          :style="{ backgroundColor: bgColor, color: '#FFFFFF' }">
         </div>
       </HoverCardTrigger>
       <div class="flex items-center justify-center h-10 w-10 text-nowrap text-md">

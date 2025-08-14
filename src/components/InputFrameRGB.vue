@@ -1,44 +1,57 @@
 <script setup
   lang="ts">
-
   import { useVisualsStore } from '@/stores/visuals';
   import KernelMatrix from './KernelMatrix/KernelMatrixRGB.vue';
-  import OutputMatrixB from './OutputMatrixRGB/OutputMatrixB.vue';
-  import OutputMatrixG from './OutputMatrixRGB/OutputMatrixG.vue';
-  import OutputMatrixR from './OutputMatrixRGB/OutputMatrixR.vue';
-  import PixelsMatrixB from './PixelsMatrixRGB/PixelsMatrixB.vue';
-  import PixelsMatrixG from './PixelsMatrixRGB/PixelsMatrixG.vue';
-  import PixelsMatrixR from './PixelsMatrixRGB/PixelsMatrixR.vue';
-  import Button from './ui/button/Button.vue';
+  import PixelsMatrixRGB from './PixelsMatrixRGB/PixelsMatrixRGB.vue';
+  import Toggle from './ui/toggle/Toggle.vue';
+  import { ref } from 'vue';
+  import { cn } from '@/lib/utils';
+  import OutputMatrixRGB from './OutputMatrixRGB/OutputMatrixRGB.vue';
 
   const visualsStore = useVisualsStore()
 
-  function toggleChannel() {
-    if (visualsStore.channel === 'R') {
-      visualsStore.channel = 'G'
-    } else if (visualsStore.channel === 'G') {
-      visualsStore.channel = 'B'
-    } else {
-      visualsStore.channel = 'R'
+  visualsStore.channels = ['R', 'G', 'B']
+
+  const modelR = ref(true)
+  const modelG = ref(true)
+  const modelB = ref(true)
+
+  function updateChannel(channel: 'R' | 'G' | 'B') {
+    if (visualsStore.channels.includes(channel)) {
+      visualsStore.channels = visualsStore.channels.filter(c => c !== channel)
+      return
     }
+    visualsStore.channels.push(channel)
   }
+
 </script>
 
 <template>
   <div class="w-full space-y-10 md:flex md:h-[700px]">
     <div class="flex flex-col space-y-4 flex-1/3 items-center justify-center">
-      <PixelsMatrixR v-if="visualsStore.channel === 'R'" />
-      <PixelsMatrixG v-if="visualsStore.channel === 'G'" />
-      <PixelsMatrixB v-if="visualsStore.channel === 'B'" />
-      <Button variant="outline" @click="toggleChannel">{{ visualsStore.channel }}</Button>
+      <div class="h-[124px]"></div>
+      <PixelsMatrixRGB />
+      <div class="flex space-x-2">
+        <Toggle variant="outline" :class="cn('!bg-transparent', modelR ? '!text-emerald-700' : '!text-rose-700')"
+          @update:model-value="updateChannel('R')" v-model="modelR">
+          R
+        </Toggle>
+        <Toggle variant="outline" :class="cn('!bg-transparent', modelG ? '!text-emerald-700' : '!text-rose-700')"
+          label="G" @update:model-value="updateChannel('G')" v-model="modelG">
+          G
+        </Toggle>
+        <Toggle variant="outline" :class="cn('!bg-transparent', modelB ? '!text-emerald-700' : '!text-rose-700')"
+          label="B" @update:model-value="updateChannel('B')" v-model="modelB">
+          B
+        </Toggle>
+      </div>
+
     </div>
-    <div class="flex flex-1/3 min-w-[200px] items-center justify-center">
+    <div class=" flex flex-1/3 min-w-[200px] items-center justify-center">
       <KernelMatrix />
     </div>
     <div class="flex flex-col space-y-2 flex-1/3 items-center justify-center">
-      <OutputMatrixR v-if="visualsStore.channel === 'R'" />
-      <OutputMatrixG v-if="visualsStore.channel === 'G'" />
-      <OutputMatrixB v-if="visualsStore.channel === 'B'" />
+      <OutputMatrixRGB />
     </div>
   </div>
 </template>
