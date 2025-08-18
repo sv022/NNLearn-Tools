@@ -57,6 +57,8 @@ export const useVisualsStore = defineStore('visuals', () => {
   function clearHighlight() {
     highlightFrame.value = []
     highlightPixel.value = []
+    framePixelValues.value = Array.from({ length: 7 * 7 }, () => 0)
+    framePixelValuesRGB.value = Array.from({ length: 7 * 7 }, () => [0, 0, 0])
   }
 
   return {
