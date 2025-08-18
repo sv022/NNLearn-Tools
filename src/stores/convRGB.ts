@@ -83,6 +83,13 @@ export const useconvRGBStore = defineStore('convrgb', () => {
   const inputResultB = computed<Image>(() =>
     imageformat(input.value.B, input.value.width, input.value.height, padding.value),
   )
+  const inputResult = computed<ImageRGB>(() => ({
+    R: inputResultR.value.pixels,
+    G: inputResultG.value.pixels,
+    B: inputResultB.value.pixels,
+    width: inputResultR.value.width,
+    height: inputResultR.value.height,
+  }))
 
   resetInput()
 
@@ -131,6 +138,7 @@ export const useconvRGBStore = defineStore('convrgb', () => {
     inputResultR,
     inputResultG,
     inputResultB,
+    inputResult,
     isExampleSelected,
     isKernelSelected,
     outputR,

@@ -1,12 +1,18 @@
 import type { Image } from '@/types/image'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { getFrame, getPixelValuesForFrame } from '@/utils/framePixelsMapping'
+import {
+  getFrame,
+  getPixelValuesForFrame,
+  getPixelValuesForFrameRGB,
+} from '@/utils/framePixelsMapping'
+import type { ImageRGB } from '@/types/imageRGB'
 
 export const useVisualsStore = defineStore('visuals', () => {
   const highlightFrame = ref<number[][]>([])
   const highlightPixel = ref<number[]>([])
   const framePixelValues = ref<number[]>(Array.from({ length: 3 * 3 }, () => 0))
+  const framePixelValuesRGB = ref<number[][]>(Array.from({ length: 3 * 3 }, () => [0, 0, 0]))
   const channels = ref<('R' | 'G' | 'B' | 'GS')[]>(['GS'])
 
   function getHighlightFrame(
@@ -20,6 +26,21 @@ export const useVisualsStore = defineStore('visuals', () => {
     const frame: number[][] = getFrame(w, h, size, padding, stride, inputPixels.width)
     if (frame.length < size * size) return
     framePixelValues.value = getPixelValuesForFrame(inputPixels, frame)
+
+    highlightFrame.value = frame
+    highlightPixel.value = [w, h]
+  }
+  function getHighlightFrameRGB(
+    w: number,
+    h: number,
+    size: number,
+    inputPixels: ImageRGB,
+    padding: number,
+    stride: number,
+  ) {
+    const frame: number[][] = getFrame(w, h, size, padding, stride, inputPixels.width)
+    if (frame.length < size * size) return
+    framePixelValuesRGB.value = getPixelValuesForFrameRGB(inputPixels, frame)
 
     highlightFrame.value = frame
     highlightPixel.value = [w, h]
@@ -43,7 +64,9 @@ export const useVisualsStore = defineStore('visuals', () => {
     highlightFrame,
     highlightPixel,
     framePixelValues,
+    framePixelValuesRGB,
     getHighlightFrame,
+    getHighlightFrameRGB,
     clearHighlight,
     checkHighlight,
   }

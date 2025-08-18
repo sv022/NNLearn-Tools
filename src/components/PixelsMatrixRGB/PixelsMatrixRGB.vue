@@ -66,7 +66,7 @@
 
         // w = Math.min(w, width.value - r - (conv2dStore.stride - 1) * 4)
         // h = Math.min(h, height.value - r - (conv2dStore.stride - 1) * 4)
-        visualsStore.getHighlightFrame(w, h, convRGBStore.kernel.width, convRGBStore.inputResultR, convRGBStore.padding, convRGBStore.stride)
+        visualsStore.getHighlightFrameRGB(w, h, convRGBStore.kernel.width, convRGBStore.inputResult, convRGBStore.padding, convRGBStore.stride)
     }
 </script>
 

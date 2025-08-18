@@ -50,6 +50,7 @@
     })
 
     const { kernel } = storeToRefs(convRGBStore)
+    const { framePixelValuesRGB } = storeToRefs(visualsStore)
 
     const kernelPixelSize = computed(() => {
         if (convRGBStore.kernel.width === 7) return 'size-7'
@@ -74,12 +75,13 @@
     <div class="space-y-5">
         <div class="text-center">
             Kernel sum: <mark class="bg-transparent font-bold text-emerald-800">{{ Math.round(kernelSum * 100) / 100
-            }}</mark>
+                }}</mark>
         </div>
         <div>
             <div v-for="i in convRGBStore.kernel.height" v-bind:key="i" :class="pixelSpacing">
                 <KernelPixelItemRGB v-for="j in convRGBStore.kernel.height"
                     v-bind:key="convRGBStore.kernel.height * (i - 1) + j"
+                    :pixel-value="framePixelValuesRGB[((j - 1) * convRGBStore.kernel.width) + (i - 1)]"
                     :value="kernel.pixels[((i - 1) * kernel.width) + (j - 1)]" :pos-x="i" :pos-y="j"
                     :size="kernelPixelSize" />
             </div>

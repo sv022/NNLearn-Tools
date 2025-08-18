@@ -8,15 +8,20 @@
   import Slider from '../ui/slider/Slider.vue';
   import { cn } from '@/lib/utils';
   import { useconvRGBStore } from '@/stores/convRGB';
+  import { useVisualsStore } from '@/stores/visuals';
+  import grayscaleToHexChannel from '@/utils/grayscaleToRGB';
 
   const convRGBStore = useconvRGBStore()
 
   const props = defineProps<{
     value: number
+    pixelValue: number[]
     posX: number
     posY: number
     size: string
   }>();
+
+  const visualsStore = useVisualsStore()
 
   const val = ref<number[]>([Math.round(props.value * 100) / 100])
 
@@ -40,9 +45,11 @@
     return 'text-neutral-700'
   })
 
-  // TODO : display pixel color
   const bgColor = computed<string>(() => {
-    return "#FFFFFF"
+    const r = visualsStore.channels.includes('R') ? props.pixelValue[0] : 0
+    const g = visualsStore.channels.includes('G') ? props.pixelValue[1] : 0
+    const b = visualsStore.channels.includes('B') ? props.pixelValue[2] : 0
+    return grayscaleToHexChannel([r, g, b])
   })
 
   const setKernelPixel = () => {

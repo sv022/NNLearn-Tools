@@ -1,4 +1,5 @@
 import type { Image } from '@/types/image'
+import type { ImageRGB } from '@/types/imageRGB'
 
 export function getFrame(
   outputX: number,
@@ -12,7 +13,7 @@ export function getFrame(
   let centerX = outputX * stride + r
   let centerY = outputY * stride + r
 
-  if (stride > 1){
+  if (stride > 1) {
     centerX--
     centerY--
   }
@@ -50,5 +51,14 @@ export function getPixelValuesForFrame(image: Image, frame: number[][]): number[
     const y = coord[1] - 1
     const index = x * image.width + y
     return image.pixels[index]
+  })
+}
+
+export function getPixelValuesForFrameRGB(image: ImageRGB, frame: number[][]): number[][] {
+  return frame.map((coord) => {
+    const x = coord[0] - 1
+    const y = coord[1] - 1
+    const index = x * image.width + y
+    return [image.R[index], image.G[index], image.B[index]]
   })
 }
