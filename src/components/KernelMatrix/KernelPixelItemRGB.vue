@@ -2,7 +2,7 @@
 import HoverCard from '../ui/hover-card/HoverCard.vue'
 import HoverCardContent from '../ui/hover-card/HoverCardContent.vue'
 import HoverCardTrigger from '../ui/hover-card/HoverCardTrigger.vue'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import Label from '../ui/label/Label.vue'
 import Slider from '../ui/slider/Slider.vue'
 import { cn } from '@/lib/utils'
@@ -66,6 +66,10 @@ const decrementKernelPixel = (step: number) => {
   val.value[0] -= step
   setKernelPixel()
 }
+watch(
+  () => props.value,
+  () => (val.value[0] = props.value),
+)
 </script>
 
 <template>
