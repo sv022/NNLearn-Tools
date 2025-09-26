@@ -1,14 +1,15 @@
-<script setup
-  lang="ts">
-  import InputFrame from '@/components/InputFrame.vue';
-  import SettingsFrame from '@/components/SettingsFrame.vue';
-  import { useVisualsStore } from '@/stores/visuals';
-  import { onMounted } from 'vue';
+<script setup lang="ts">
+import InputFrame from '@/components/InputFrame.vue'
+import SettingsFrame from '@/components/SettingsFrame.vue'
+import { useVisualsStore } from '@/stores/visuals'
+import { onMounted } from 'vue'
 
-  onMounted(() => {
-    const visualsStore = useVisualsStore()
-    visualsStore.channels = ['GS']
-  })
+const visualsStore = useVisualsStore()
+onMounted(() => {
+  visualsStore.highlightFrame = [[]]
+  visualsStore.highlightPixel = [0, 0]
+  visualsStore.channels = ['GS']
+})
 </script>
 
 <template>
